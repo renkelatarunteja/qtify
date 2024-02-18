@@ -1,55 +1,18 @@
-import React, { useState } from "react";
-import Logo from "../Logo/Logo";
-import styles from "./NavBar.module.css";
-import SearchBar from "../SearchBar/SearchBar";
-import FeedBackModal from "../Modals/FeedBackModal/FeedBackModal";
-import { showToast } from "../../config/helper-methods";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import Button from "../Button/Button";
+import Search from "../Search/Search";
+import styles from './Navbar.module.css'
+import LogoImage from "../../assets/Logo.png"
 
-const NavBar = ({ data, logo = false, search = false, feedback = false }) => {
-    const [isFeedBackModalOpen, setIsFeedBackModalOpen] = useState(false);
-    const navigate = useNavigate();
 
-    const _toggleFeedBackModal = (value = false) => {
-        setIsFeedBackModalOpen(value);
-    };
-
-    const _onSuccess = () => {
-        // show toast
-        showToast("Feedback Submitted", "success");
-    };
-
-    return (
-        <div className={styles.wrapper}>
+export default function Navbar(){
+    return(
+        <>
             <nav className={styles.navbar}>
-                <div className={styles.logoSearchWrapper}>
-                    <div className={styles.logoWrapper} onClick={() => navigate(`/`)}>
-                        {logo ? <Logo id={styles.logo} /> : null}
-                    </div>
-                    {search ? (
-                        <div className={styles.searchWrapper}>
-                            <SearchBar
-                                placeholder="Search an album of your choice"
-                                data={data}
-                            />
-                        </div>
-                    ) : null}
-                </div>
-                {feedback ? (
-                    <div
-                        className={styles.nav_link}
-                        onClick={() => _toggleFeedBackModal(true)}>
-                        Feedback
-                    </div>
-                ) : null}
+                <div className={styles.logoDiv}><img  src={LogoImage} alt="logo" width={67}/></div>
+                 <Search search={"Search a song of your choice"}/>
+                <Button children="Give Feedback"/>
             </nav>
-            <FeedBackModal
-                isOpen={isFeedBackModalOpen}
-                onSuccess={_onSuccess}
-                onDismiss={_toggleFeedBackModal}
-            />
-        </div>
-    );
-};
-
-export default NavBar;
+        </>
+    )
+}
